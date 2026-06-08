@@ -3,41 +3,150 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arriba el Toluca</title>
+<title>¿Qué tipo de animal es?</title>
 
 <style>
-    body {
-        margin: 0;
-        background-color: black;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        overflow: hidden;
-    }
-
-    h1 {
-        color: red;
-        font-size: 8vw;
+    body{
         font-family: Arial, sans-serif;
-        font-weight: bold;
-        text-transform: uppercase;
-        animation: parpadear 0.8s infinite;
-        text-shadow: 0 0 20px red, 0 0 40px red;
+        background: linear-gradient(to bottom, #87CEEB, #E0F7FA);
+        text-align: center;
+        padding: 20px;
     }
 
-    @keyframes parpadear {
-        0%, 50% {
-            opacity: 1;
-        }
-        51%, 100% {
-            opacity: 0;
-        }
+    .contenedor{
+        background: white;
+        max-width: 600px;
+        margin: auto;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    h1{
+        color: #2E7D32;
+    }
+
+    #animal{
+        font-size: 2rem;
+        margin: 20px;
+    }
+
+    button{
+        padding: 12px 20px;
+        margin: 10px;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .viviparo{
+        background: #4CAF50;
+        color: white;
+    }
+
+    .oviparo{
+        background: #2196F3;
+        color: white;
+    }
+
+    .mamifero{
+        background: #FF9800;
+        color: white;
+    }
+
+    #resultado{
+        margin-top: 20px;
+        font-size: 1.3rem;
+        font-weight: bold;
+    }
+
+    #puntaje{
+        margin-top: 15px;
+        font-size: 1.2rem;
     }
 </style>
 </head>
-
 <body>
-    <h1>ARRIBA EL TOLUCA</h1>
+
+<div class="contenedor">
+    <h1>🐾 Clasifica al Animal 🐾</h1>
+
+    <p>Observa el animal y selecciona la opción correcta.</p>
+
+    <div id="animal">🐶 Perro</div>
+
+    <button class="viviparo" onclick="verificar('Vivíparo')">Vivíparo</button>
+    <button class="oviparo" onclick="verificar('Ovíparo')">Ovíparo</button>
+    <button class="mamifero" onclick="verificar('Mamífero')">Mamífero</button>
+
+    <div id="resultado"></div>
+    <div id="puntaje">Puntaje: 0</div>
+</div>
+
+<script>
+
+const animales = [
+    {nombre:"🐶 Perro", tipo:"Mamífero"},
+    {nombre:"🐱 Gato", tipo:"Mamífero"},
+    {nombre:"🐄 Vaca", tipo:"Vivíparo"},
+    {nombre:"🐴 Caballo", tipo:"Vivíparo"},
+    {nombre:"🐔 Gallina", tipo:"Ovíparo"},
+    {nombre:"🦆 Pato", tipo:"Ovíparo"},
+    {nombre:"🐢 Tortuga", tipo:"Ovíparo"},
+    {nombre:"🐘 Elefante", tipo:"Vivíparo"},
+    {nombre:"🐬 Delfín", tipo:"Mamífero"},
+    {nombre:"🐧 Pingüino", tipo:"Ovíparo"}
+];
+
+let actual = 0;
+let puntos = 0;
+
+function mostrarAnimal(){
+    document.getElementById("animal").textContent =
+        animales[actual].nombre;
+}
+
+function verificar(respuesta){
+
+    const correcta = animales[actual].tipo;
+    const resultado = document.getElementById("resultado");
+
+    if(respuesta === correcta){
+        resultado.innerHTML = "✅ ¡Correcto!";
+        resultado.style.color = "green";
+        puntos++;
+    }else{
+        resultado.innerHTML =
+        `❌ Incorrecto. La respuesta correcta es: ${correcta}`;
+        resultado.style.color = "red";
+    }
+
+    document.getElementById("puntaje").innerHTML =
+        `Puntaje: ${puntos}`;
+
+    actual++;
+
+    if(actual >= animales.length){
+        setTimeout(()=>{
+            alert(`Juego terminado. Tu puntaje fue ${puntos} de ${animales.length}`);
+            actual = 0;
+            puntos = 0;
+            document.getElementById("puntaje").innerHTML = "Puntaje: 0";
+            mostrarAnimal();
+            resultado.innerHTML = "";
+        }, 1000);
+    }else{
+        setTimeout(()=>{
+            mostrarAnimal();
+            resultado.innerHTML = "";
+        }, 1000);
+    }
+}
+
+mostrarAnimal();
+
+</script>
+
 </body>
 </html>
